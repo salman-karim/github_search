@@ -25,11 +25,16 @@ describe('when searching for a user', function() {
   beforeEach(inject(function($httpBackend) {
     httpBackend = $httpBackend;
     httpBackend
-      .when("GET", "https://api.github.com/search/users?access_token=" + access_token + "&q=hello")
+      .expect("GET", "https://api.github.com/search/users?access_token=" + access_token + "&q=hello")
       .respond(
         { items: items }
       );
   }));
+
+  afterEach(function() {
+    httpBackend.verifyNoOutstandingExpectation();
+    httpBackend.verifyNoOutstandingRequest();
+  });
 
   var items = [
     {
